@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AIAssistantResource" load_steps=3 format=3 uid="uid://bfyn4nfr8uj6c"]
+
+[ext_resource type="Script" uid="uid://bj1k7g7g1p881" path="res://addons/ai_assistant_hub/quick_prompts/ai_quick_prompt_resource.gd" id="1_tsdrn"]
+[ext_resource type="Script" uid="uid://n0a5hb0s6uw" path="res://addons/ai_assistant_hub/assistants/ai_assistant_resource.gd" id="2_k8w65"]
+
+[resource]
+script = ExtResource("2_k8w65")
+type_name = "Helper"
+ai_model = "deepseek-coder:6.7b"
+api_class = ""
+ai_description = "You are a useful Godot AI assistant."
+use_custom_temperature = false
+custom_temperature = 0.5
+quick_prompts = Array[ExtResource("1_tsdrn")]([])
+metadata/_custom_type_script = "uid://n0a5hb0s6uw"

@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpdaoeb3dt5k3"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xfpe7"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, 3, 0)
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = -157.4
+angle_max = 118.0
+direction = Vector3(0, -1, 0)
+spread = 29.724
+flatness = 1.0
+initial_velocity_min = 38.33
+initial_velocity_max = 54.72
+gravity = Vector3(0, 98, 0)
+damping_min = 21.311
+damping_max = 27.322
+hue_variation_min = -2.23517e-08
+hue_variation_max = -2.23517e-08
+
+[node name="IceStepParticles" type="GPUParticles2D"]
+speed_scale = 1.5
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_xfpe7")

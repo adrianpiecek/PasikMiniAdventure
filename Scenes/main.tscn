@@ -51,7 +51,7 @@ tile_map_data = PackedByteArray("AAARAPL/AgAAAAAAAAASAPL/AgAAAAAAAAANAOj/AgAAAAA
 tile_set = ExtResource("2_hopu2")
 
 [node name="Player" parent="." node_paths=PackedStringArray("tilemap") instance=ExtResource("2_mt468")]
-position = Vector2(765, -26)
+position = Vector2(850, -229)
 collision_mask = 7
 tilemap = NodePath("../TileMap")
 

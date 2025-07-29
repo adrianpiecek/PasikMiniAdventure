@@ -35,6 +35,10 @@ project/assembly_name="Pasik MiniAdventure"
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/ai_assistant_hub/plugin.cfg")
+
 [global_group]
 
 player=""
@@ -55,6 +59,13 @@ locale/locale_filter_mode=0
 [layer_names]
 
 2d_physics/layer_3="spikes"
+
+[plugins]
+
+ai_assistant_hub/base_url="http://127.0.0.1:11434"
+ai_assistant_hub/llm_api="ollama_api"
+ai_assistant_hub/preferences/thinking_target=0
+ai_assistant_hub/preferences/always_scroll_to_bottom=false
 
 [rendering]
 

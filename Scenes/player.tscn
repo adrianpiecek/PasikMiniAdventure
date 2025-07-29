@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://do74b4kv7eh0e" path="res://Assets/Sprites/Main Characters/Virtual Guy/Hit (32x32).png" id="4_mkcd1"]
 [ext_resource type="Texture2D" uid="uid://b688qw32my7l" path="res://Assets/Sprites/Main Characters/Virtual Guy/Jump (32x32).png" id="4_pqb00"]
 [ext_resource type="Texture2D" uid="uid://drodp73j82qqa" path="res://Assets/Sprites/Main Characters/Virtual Guy/Wall Jump (32x32).png" id="6_7omer"]
-[ext_resource type="Texture2D" uid="uid://cq5oi8exj6bjm" path="res://Assets/Sprites/Other/Dust Particle.png" id="9_sadho"]
+[ext_resource type="PackedScene" uid="uid://cpdaoeb3dt5k3" path="res://Scenes/particles/ice_step_particles.tscn" id="10_tx1dd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aio14"]
 atlas = ExtResource("2_x8tky")
@@ -352,22 +352,28 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpibx"]
 size = Vector2(15, 21)
 
-[sub_resource type="Curve" id="Curve_qqfwp"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
+[sub_resource type="Gradient" id="Gradient_f1ek2"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
-[sub_resource type="CurveTexture" id="CurveTexture_wkah3"]
-curve = SubResource("Curve_qqfwp")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tx1dd"]
+gradient = SubResource("Gradient_f1ek2")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ad8qt"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f1ek2"]
 particle_flag_disable_z = true
-spread = 100.075
-initial_velocity_min = 120.0
-initial_velocity_max = 200.0
-gravity = Vector3(0, 600, 0)
-scale_min = 0.5
-scale_max = 0.6
-scale_curve = SubResource("CurveTexture_wkah3")
+emission_shape = 2
+emission_sphere_radius = 5.94
+angle_min = -330.5
+angle_max = 1.07288e-05
+direction = Vector3(0, -1, 0)
+spread = 51.206
+initial_velocity_min = 27.32
+initial_velocity_max = 38.25
+gravity = Vector3(0, 98, 0)
+damping_min = 30.055
+damping_max = 33.88
+scale_min = 2.0
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_tx1dd")
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_pvvpu")
@@ -388,14 +394,19 @@ shape = SubResource("RectangleShape2D_vpibx")
 offset = Vector2(0, -10)
 zoom = Vector2(2, 2)
 
-[node name="StepParticles" type="GPUParticles2D" parent="."]
-visible = false
-position = Vector2(6, 18)
+[node name="StepParticles" parent="." instance=ExtResource("10_tx1dd")]
+modulate = Color(1, 1, 1, 0.647059)
+position = Vector2(6, 17)
 emitting = false
-amount = 10
-process_material = SubResource("ParticleProcessMaterial_ad8qt")
-texture = ExtResource("9_sadho")
-lifetime = 0.5
+lifetime = 0.48
+speed_scale = 1.0
+
+[node name="DoubleJumpParticles" type="GPUParticles2D" parent="."]
+position = Vector2(6, 17)
+emitting = false
+amount = 20
+lifetime = 0.47
 one_shot = true
-randomness = 0.1
-visibility_rect = Rect2(-21.5981, -33.5981, 91.1962, 60.0981)
+speed_scale = 1.62
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_f1ek2")

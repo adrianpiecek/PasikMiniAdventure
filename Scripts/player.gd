@@ -7,6 +7,7 @@ const COYOTE_TIME = 0.1
 const WALL_JUMP_FORCE = Vector2(200, -360)
 const WALL_JUMP_LOCK_TIME = 0.2
 const IGNORE_PLATFORM_TIME = 0.2
+const WALL_SLIDE_SPEED = 50
 
 var coyote_timer = 0.0
 var can_double_jump = false
@@ -21,6 +22,7 @@ var max_speed = 400
 
 @onready var sprite = $AnimatedSprite2D
 @onready var step_particles = $StepParticles
+@onready var double_jump_particles = $DoubleJumpParticles
 
 @export var tilemap: TileMap
 
@@ -48,6 +50,8 @@ func _physics_process(delta):
 	var direction = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	var on_floor = is_on_floor()
 	var on_wall = is_on_wall_only()
+	var moving_x = velocity.x != 0
+	var moving_y = velocity.y != 0
 
 	# === Grawitacja ===
 	if not on_floor:
@@ -77,7 +81,10 @@ func _physics_process(delta):
 			velocity.x = move_toward(velocity.x, target_speed, friction * 1500 * delta)
 		else:
 			velocity.x = target_speed
-
+	
+	if on_wall:
+		print("wnus")
+	
 	# === Skoki ===
 	if Input.is_action_just_pressed("ui_up"):
 		if on_floor or coyote_timer > 0:
@@ -94,10 +101,11 @@ func _physics_process(delta):
 		elif can_double_jump:
 			velocity.y = JUMP_VELOCITY
 			can_double_jump = false
+			double_jump_particles.emitting = true
 			sprite.play("double_jump")
 
 	# === Flip kierunku patrzenia ===
-	if velocity.x != 0:
+	if moving_x:
 		sprite.flip_h = velocity.x < 0
 
 	# === Animacje ===
@@ -108,6 +116,7 @@ func _physics_process(delta):
 			if can_double_jump:
 				sprite.play("jump")
 			else:
+				double_jump_particles.emitting = true
 				sprite.play("double_jump")
 		else:
 			sprite.play("fall")
@@ -115,8 +124,18 @@ func _physics_process(delta):
 		if abs(velocity.x) > 10:
 			sprite.play("run")
 		else:
-			sprite.play("idle")
-
+			sprite.play("idle")		
+	
+	if moving_x and not moving_y:
+		step_particles.emitting = true
+	else:
+		step_particles.emitting = false
+	
+	if friction >= 5.0:
+		step_particles.modulate = Color(0.0, 0.365, 0.0, 0.647)
+	else:
+		step_particles.modulate = Color(1.0, 1.0, 1.0, 0.647)
+	
 	# === Ignorowanie platform po wciśnięciu strzałki w dół ===
 	if Input.is_action_just_pressed("ui_down") and is_on_floor():
 		set_collision_mask_value(2, false)
@@ -148,7 +167,6 @@ func _physics_process(delta):
 		elif collider.is_in_group("flying_platform"):
 			current_surface = {"friction": 1.0, "speed_multiplier": 1.0}
 	
-	emit_step_particles()
 	self.velocity = velocity
 	move_and_slide()
 
@@ -159,10 +177,6 @@ func get_surface_properties(tile_data: TileData) -> Dictionary:
 			return surface_properties[surface]
 	return {"friction": 1.0, "speed_multiplier": 1.0}  # domyślne
 	
-func emit_step_particles():
-	step_particles.emitting = false
-	step_particles.restart()
-
 func die():
 	if is_dead:
 		return
@@ -177,6 +191,9 @@ func die():
 
 	await get_tree().create_timer(0.45).timeout
 	Global.transition_diamond.play_transition(Callable(self, "_restart_level"))
+
+func logical_xor(a: bool, b: bool) -> bool:
+	return (a and not b) or (not a and b)
 
 func _restart_level():
 	get_tree().reload_current_scene()
