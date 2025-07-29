@@ -23,6 +23,7 @@ var max_speed = 400
 @onready var sprite = $AnimatedSprite2D
 @onready var step_particles = $StepParticles
 @onready var double_jump_particles = $DoubleJumpParticles
+@onready var wall_slide_particles = $WallSlideParticles
 
 @export var tilemap: TileMap
 
@@ -85,8 +86,14 @@ func _physics_process(delta):
 	
 	if on_wall and velocity.y > WALL_SLIDE_SPEED and hor_arrow_pressed:
 		#sprite.play("wall_slide")
-		#wall_slide_particles.emmiting = true
 		velocity.y = WALL_SLIDE_SPEED
+		wall_slide_particles.emitting = true
+		if Input.is_action_pressed("ui_right"):
+			wall_slide_particles.position = Vector2(14,7)
+		elif Input.is_action_pressed("ui_left"):
+			wall_slide_particles.position = Vector2(-2,7)
+	else:
+		wall_slide_particles.emitting = false
 	
 	# === Skoki ===
 	if Input.is_action_just_pressed("ui_up"):
@@ -108,7 +115,7 @@ func _physics_process(delta):
 			sprite.play("double_jump")
 
 	# === Flip kierunku patrzenia ===
-	if moving_x:
+	if velocity.x != 0:
 		sprite.flip_h = velocity.x < 0
 
 	# === Animacje ===
