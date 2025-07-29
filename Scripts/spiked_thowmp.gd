@@ -10,6 +10,7 @@ enum Direction { LEFT, RIGHT, UP, DOWN }
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hurt_area: Area2D = $HurtArea
+@onready var hit_sound = $HitSound
 
 var current_direction_index: int = 0
 var moving: bool = false
@@ -46,6 +47,7 @@ func _move_to_next():
 func _on_collision(collision: KinematicCollision2D):
 	moving = false
 	_play_impact_animation()
+	hit_sound.play()
 	await get_tree().create_timer(wait_time).timeout
 	current_direction_index = (current_direction_index + 1) % move_cycle.size()
 	_move_to_next()

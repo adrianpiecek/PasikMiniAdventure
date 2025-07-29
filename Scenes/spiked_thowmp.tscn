@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://be3ncvo7cuo54"]
+[gd_scene load_steps=37 format=3 uid="uid://be3ncvo7cuo54"]
 
 [ext_resource type="Script" uid="uid://bye2jvnmkbxnc" path="res://Scripts/spiked_thowmp.gd" id="1_5v7iv"]
 [ext_resource type="Texture2D" uid="uid://c3edv4vbb28sl" path="res://Assets/Sprites/Traps/Spike Head/Idle.png" id="2_yh1bt"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://1p6k0hfo16fr" path="res://Assets/Sprites/Traps/Spike Head/Left Hit (54x52).png" id="5_ybxw5"]
 [ext_resource type="Texture2D" uid="uid://n4da7vlpeto0" path="res://Assets/Sprites/Traps/Spike Head/Right Hit (54x52).png" id="6_ekttc"]
 [ext_resource type="Texture2D" uid="uid://dwdnjwptvxvp3" path="res://Assets/Sprites/Traps/Spike Head/Top Hit (54x52).png" id="7_m1ryj"]
+[ext_resource type="AudioStream" uid="uid://beygs1s3y8vqw" path="res://Assets/sounds/explosion.wav" id="8_qmw4b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gjpie"]
 atlas = ExtResource("2_yjamt")
@@ -239,3 +240,8 @@ shape = SubResource("RectangleShape2D_1p88h")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea"]
 shape = SubResource("CircleShape2D_lja21")
 debug_color = Color(0.995043, 0, 0.212065, 0.42)
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_qmw4b")
+volume_db = -10.0
+max_distance = 500.0

@@ -1,5 +1,6 @@
-[gd_scene load_steps=16 format=4 uid="uid://b6ix6aaskdng7"]
+[gd_scene load_steps=17 format=4 uid="uid://b6ix6aaskdng7"]
 
+[ext_resource type="Script" uid="uid://cju8g10d1pibv" path="res://Scripts/levels/lvl_test.gd" id="1_d1ilt"]
 [ext_resource type="TileSet" uid="uid://dgekovf3t1x1j" path="res://Assets/tilesets/new_tile_set.tres" id="2_hopu2"]
 [ext_resource type="PackedScene" uid="uid://chaxaetyfi5nj" path="res://Scenes/player.tscn" id="2_mt468"]
 [ext_resource type="PackedScene" uid="uid://cgoym2u0apgs8" path="res://Scenes/flying_platform.tscn" id="3_4j3so"]
@@ -42,6 +43,7 @@ _data = {
 point_count = 2
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_d1ilt")
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(-1, 4)
@@ -59,7 +61,7 @@ tile_map_data = PackedByteArray("AAARAPL/AgAAAAAAAAASAPL/AgAAAAAAAAANAOj/AgAAAAA
 tile_set = ExtResource("2_hopu2")
 
 [node name="Player" parent="." node_paths=PackedStringArray("tilemap") instance=ExtResource("2_mt468")]
-position = Vector2(850, -229)
+position = Vector2(-86, -422)
 collision_mask = 7
 tilemap = NodePath("../TileMap")
 

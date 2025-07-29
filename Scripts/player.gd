@@ -8,6 +8,7 @@ const WALL_JUMP_FORCE = Vector2(200, -360)
 const WALL_JUMP_LOCK_TIME = 0.2
 const IGNORE_PLATFORM_TIME = 0.2
 const WALL_SLIDE_SPEED = 50
+const DASH_COOLDOWN = 0.5
 
 var coyote_timer = 0.0
 var can_double_jump = false
@@ -19,16 +20,29 @@ var is_dead = false
 var friction = 1.0
 var speed_multiplier = 1.0
 var max_speed = 400
+var is_dashing = false
+var dash_timer = 0.0
+var dash_cooldown_timer = 0.0
+var DASH_TIME = 0.15
+var DASH_SPEED = 450
+var can_dash = true
+
 
 @onready var sprite = $AnimatedSprite2D
-@onready var step_particles = $StepParticles
-@onready var double_jump_particles = $DoubleJumpParticles
-@onready var wall_slide_particles = $WallSlideParticles
+@onready var step_particles = $Particles/StepParticles
+@onready var double_jump_particles = $Particles/DoubleJumpParticles
+@onready var wall_slide_particles = $Particles/WallSlideParticles
+@onready var dash_particles = $Particles/DashParticles
+@onready var dash_sound = $Sounds/DashSound
+@onready var jump_sound = $Sounds/JumpSound
+@onready var hurt_sound = $Sounds/HurtSound
+
+
 
 @export var tilemap: TileMap
 
 var surface_properties = {
-	"ice": {"friction": 0.1, "speed_multiplier": 1.75},
+	"ice": {"friction": 0.15, "speed_multiplier": 1.25},
 	"mud": {"friction": 5.0, "speed_multiplier": 0.35},
 }
 var current_surface = {"friction": 1.0, "speed_multiplier": 1.0}
@@ -38,6 +52,18 @@ func _ready() -> void:
 
 func _physics_process(delta):
 	var velocity = self.velocity
+	
+	if dash_cooldown_timer > 0:
+		dash_cooldown_timer -= delta
+	
+	if is_dashing:
+		dash_timer -= delta
+		if dash_timer <= 0:
+			is_dashing = false
+		else:
+			self.velocity = velocity
+			move_and_slide()
+			return
 
 	# === Jeśli martwy – tylko spadanie ===
 	if is_dead:
@@ -63,6 +89,7 @@ func _physics_process(delta):
 	if on_floor:
 		coyote_timer = COYOTE_TIME
 		can_double_jump = true
+		can_dash = true
 	else:
 		coyote_timer -= delta
 
@@ -100,6 +127,7 @@ func _physics_process(delta):
 		if on_floor or coyote_timer > 0:
 			velocity.y = JUMP_VELOCITY
 			sprite.play("jump")
+			jump_sound.play()
 		elif on_wall and not on_floor:
 			var normal = get_wall_normal()
 			is_wall_jumping = true
@@ -108,15 +136,20 @@ func _physics_process(delta):
 			velocity.x = normal.x * WALL_JUMP_FORCE.x
 			velocity.y = WALL_JUMP_FORCE.y
 			sprite.play("wall_jump")
+			jump_sound.play()
 		elif can_double_jump:
 			velocity.y = JUMP_VELOCITY
 			can_double_jump = false
 			double_jump_particles.emitting = true
 			sprite.play("double_jump")
+			jump_sound.play()
 
 	# === Flip kierunku patrzenia ===
 	if velocity.x != 0:
 		sprite.flip_h = velocity.x < 0
+		var img = dash_particles.texture.get_image()
+		img.flip_x()
+		dash_particles.texture = ImageTexture.create_from_image(img)
 
 	# === Animacje ===
 	if is_wall_jumping:
@@ -134,7 +167,7 @@ func _physics_process(delta):
 		if abs(velocity.x) > 10:
 			sprite.play("run")
 		else:
-			sprite.play("idle")		
+			sprite.play("idle")
 	
 	if moving_x and not moving_y:
 		step_particles.emitting = true
@@ -177,6 +210,17 @@ func _physics_process(delta):
 		elif collider.is_in_group("flying_platform"):
 			current_surface = {"friction": 1.0, "speed_multiplier": 1.0}
 	
+	if Input.is_action_just_pressed("z") and can_dash and not is_dashing and dash_cooldown_timer <= 0:
+		is_dashing = true
+		dash_cooldown_timer = DASH_COOLDOWN
+		dash_timer = DASH_TIME
+		can_dash = false
+		velocity.y = 0
+		velocity.x = DASH_SPEED if not sprite.flip_h else -DASH_SPEED
+		dash_particles.emitting = true
+		dash_sound.play()
+
+	
 	self.velocity = velocity
 	move_and_slide()
 
@@ -195,6 +239,8 @@ func die():
 	set_collision_mask_value(1, false)
 	set_collision_mask_value(2, false)
 	sprite.play("hit")
+	Music.stop_music(0.5)
+	hurt_sound.play()
 	velocity = Vector2(0, -400)  # Odbicie w górę
 	self.velocity = velocity
 	Engine.time_scale = 0.35

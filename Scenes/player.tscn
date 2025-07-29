@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://chaxaetyfi5nj"]
+[gd_scene load_steps=65 format=3 uid="uid://chaxaetyfi5nj"]
 
 [ext_resource type="Texture2D" uid="uid://bhijgmghd7jhl" path="res://Assets/Sprites/Main Characters/Virtual Guy/Idle (32x32).png" id="1_p7s1y"]
 [ext_resource type="Script" uid="uid://clr2kmcf1kbk5" path="res://Scripts/player.gd" id="1_pvvpu"]
@@ -8,7 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://do74b4kv7eh0e" path="res://Assets/Sprites/Main Characters/Virtual Guy/Hit (32x32).png" id="4_mkcd1"]
 [ext_resource type="Texture2D" uid="uid://b688qw32my7l" path="res://Assets/Sprites/Main Characters/Virtual Guy/Jump (32x32).png" id="4_pqb00"]
 [ext_resource type="Texture2D" uid="uid://drodp73j82qqa" path="res://Assets/Sprites/Main Characters/Virtual Guy/Wall Jump (32x32).png" id="6_7omer"]
+[ext_resource type="AudioStream" uid="uid://1frr5oss4hwd" path="res://Assets/sounds/power_up.wav" id="10_gymyn"]
 [ext_resource type="PackedScene" uid="uid://cpdaoeb3dt5k3" path="res://Scenes/particles/ice_step_particles.tscn" id="10_tx1dd"]
+[ext_resource type="AudioStream" uid="uid://d3jarlqmc0aur" path="res://Assets/sounds/jump.wav" id="11_pu2lt"]
+[ext_resource type="AudioStream" uid="uid://bwhmmua72cjwk" path="res://Assets/sounds/hurt.wav" id="12_ukyrk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aio14"]
 atlas = ExtResource("2_x8tky")
@@ -387,6 +390,18 @@ gravity = Vector3(0, -90, 0)
 scale_min = 1.5
 scale_max = 1.5
 
+[sub_resource type="Gradient" id="Gradient_tx1dd"]
+colors = PackedColorArray(1, 1, 1, 0.596078, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gymyn"]
+gradient = SubResource("Gradient_tx1dd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pu2lt"]
+particle_flag_disable_z = true
+spread = 0.0
+gravity = Vector3(-150, 0, 0)
+color_ramp = SubResource("GradientTexture1D_gymyn")
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_pvvpu")
 
@@ -406,14 +421,16 @@ shape = SubResource("RectangleShape2D_vpibx")
 offset = Vector2(0, -10)
 zoom = Vector2(2, 2)
 
-[node name="StepParticles" parent="." instance=ExtResource("10_tx1dd")]
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="StepParticles" parent="Particles" instance=ExtResource("10_tx1dd")]
 modulate = Color(1, 1, 1, 0.647059)
 position = Vector2(6, 17)
 emitting = false
 lifetime = 0.48
 speed_scale = 1.0
 
-[node name="DoubleJumpParticles" type="GPUParticles2D" parent="."]
+[node name="DoubleJumpParticles" type="GPUParticles2D" parent="Particles"]
 position = Vector2(6, 17)
 emitting = false
 amount = 20
@@ -423,8 +440,29 @@ speed_scale = 1.62
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_f1ek2")
 
-[node name="WallSlideParticles" type="GPUParticles2D" parent="."]
+[node name="WallSlideParticles" type="GPUParticles2D" parent="Particles"]
 position = Vector2(16, 7)
 emitting = false
 lifetime = 0.46
 process_material = SubResource("ParticleProcessMaterial_tx1dd")
+
+[node name="DashParticles" type="GPUParticles2D" parent="Particles"]
+position = Vector2(6, 5)
+emitting = false
+amount = 3
+texture = ExtResource("4_pqb00")
+lifetime = 0.21
+one_shot = true
+speed_scale = 1.7
+process_material = SubResource("ParticleProcessMaterial_pu2lt")
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="DashSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("10_gymyn")
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("11_pu2lt")
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("12_ukyrk")

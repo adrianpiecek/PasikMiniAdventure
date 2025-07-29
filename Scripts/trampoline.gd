@@ -5,6 +5,7 @@ extends Area2D
 
 @onready var animated_sprite = $"../AnimatedSprite2D"
 @onready var cooldown_timer = $CooldownTimer
+@onready var bounce_sound = $"../BounceSound"
 
 var can_bounce = true
 
@@ -35,6 +36,8 @@ func _on_body_entered(body):
 	if body.is_in_group("player") or body.name.begins_with("Player"):
 		# Aktywuj trampolinę
 		bounce_player(body)
+		bounce_sound.play()
+		
 
 func bounce_player(player):
 	if !can_bounce:
