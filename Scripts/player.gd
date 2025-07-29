@@ -52,6 +52,7 @@ func _physics_process(delta):
 	var on_wall = is_on_wall_only()
 	var moving_x = velocity.x != 0
 	var moving_y = velocity.y != 0
+	var hor_arrow_pressed = Input.is_action_pressed("ui_left") or Input.is_action_pressed("ui_right")
 
 	# === Grawitacja ===
 	if not on_floor:
@@ -82,8 +83,10 @@ func _physics_process(delta):
 		else:
 			velocity.x = target_speed
 	
-	if on_wall:
-		print("wnus")
+	if on_wall and velocity.y > WALL_SLIDE_SPEED and hor_arrow_pressed:
+		#sprite.play("wall_slide")
+		#wall_slide_particles.emmiting = true
+		velocity.y = WALL_SLIDE_SPEED
 	
 	# === Skoki ===
 	if Input.is_action_just_pressed("ui_up"):
