@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3 uid="uid://djwg8xwrbd1ai"]
+
+[ext_resource type="Texture2D" uid="uid://de8ywtqvpp3s3" path="res://Assets/background/Glacial-mountains-parallax-background_vnitti/Layers/sky_lightened.png" id="1_8ntqg"]
+[ext_resource type="Texture2D" uid="uid://bvsocyijfedrm" path="res://Assets/background/New free backgrounds part2/background 1/2.png" id="2_41i37"]
+[ext_resource type="Script" uid="uid://dcjlw4jadbbr1" path="res://Scripts/cloud_layer.gd" id="2_h550e"]
+[ext_resource type="Texture2D" uid="uid://du2t8j5ib42s0" path="res://Assets/background/New free backgrounds part2/background 1/3.png" id="3_h550e"]
+[ext_resource type="Texture2D" uid="uid://doajok4n2dkmt" path="res://Assets/background/New free backgrounds part2/background 1/4.png" id="4_7hd7b"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(384, 216)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
+texture_repeat = 2
+texture = ExtResource("1_8ntqg")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(576, 0)
+script = ExtResource("2_h550e")
+CLOUD_SPEED = -10.0
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer2"]
+modulate = Color(1, 1, 1, 0.258824)
+texture = ExtResource("2_41i37")
+region_rect = Rect2(0, 0, 576, 324)
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.25, 0.25)
+motion_mirroring = Vector2(576, 0)
+script = ExtResource("2_h550e")
+CLOUD_SPEED = -6.0
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer3"]
+modulate = Color(1, 1, 1, 0.866667)
+position = Vector2(-8, -9.5)
+texture = ExtResource("3_h550e")
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(576, 0)
+script = ExtResource("2_h550e")
+CLOUD_SPEED = -4.0
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer4"]
+modulate = Color(1, 1, 1, 0.878431)
+position = Vector2(23.5, 15.5)
+texture = ExtResource("4_7hd7b")
