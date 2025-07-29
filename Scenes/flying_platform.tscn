@@ -1,0 +1,127 @@
+[gd_scene load_steps=19 format=3 uid="uid://cgoym2u0apgs8"]
+
+[ext_resource type="Script" path="res://Scripts/flying_platform.gd" id="1_tkm8f"]
+[ext_resource type="Script" path="res://Scripts/platform.gd" id="2_xgkc6"]
+[ext_resource type="Texture2D" uid="uid://dytigfy1lyfa3" path="res://Assets/Sprites/Traps/Falling Platforms/On (32x10).png" id="3_r5tq3"]
+[ext_resource type="Texture2D" uid="uid://b8vwhbwocw427" path="res://Assets/Sprites/Traps/Falling Platforms/On not fallinf (32x10).png" id="4_vbqrl"]
+[ext_resource type="Texture2D" uid="uid://bw8aapqhx1n74" path="res://Assets/Sprites/Traps/Falling Platforms/Off.png" id="5_ays2p"]
+
+[sub_resource type="Curve2D" id="Curve2D_qhh4b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xl6rs"]
+atlas = ExtResource("3_r5tq3")
+region = Rect2(0, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1s4jc"]
+atlas = ExtResource("3_r5tq3")
+region = Rect2(32, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ckt4x"]
+atlas = ExtResource("3_r5tq3")
+region = Rect2(64, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwfd4"]
+atlas = ExtResource("3_r5tq3")
+region = Rect2(96, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8b0a"]
+atlas = ExtResource("4_vbqrl")
+region = Rect2(0, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivnbm"]
+atlas = ExtResource("4_vbqrl")
+region = Rect2(32, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_585bv"]
+atlas = ExtResource("4_vbqrl")
+region = Rect2(64, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3w553"]
+atlas = ExtResource("4_vbqrl")
+region = Rect2(96, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7fgbf"]
+atlas = ExtResource("5_ays2p")
+region = Rect2(0, 0, 32, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7fvwt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xl6rs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1s4jc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ckt4x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwfd4")
+}],
+"loop": true,
+"name": &"falling",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8b0a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ivnbm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_585bv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3w553")
+}],
+"loop": true,
+"name": &"not_falling",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7fgbf")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1vs4"]
+size = Vector2(32, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8qky1"]
+size = Vector2(32, 14)
+
+[node name="FlyingPlatform" type="Path2D"]
+curve = SubResource("Curve2D_qhh4b")
+script = ExtResource("1_tkm8f")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+rotates = false
+
+[node name="Platform" type="CharacterBody2D" parent="PathFollow2D" groups=["flying_platform"]]
+collision_layer = 2
+script = ExtResource("2_xgkc6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D/Platform"]
+sprite_frames = SubResource("SpriteFrames_7fvwt")
+animation = &"off"
+autoplay = "falling"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Platform"]
+position = Vector2(0, -2.5)
+shape = SubResource("RectangleShape2D_o1vs4")
+one_way_collision = true
+
+[node name="Area2D" type="Area2D" parent="PathFollow2D/Platform"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Platform/Area2D"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_8qky1")
+debug_color = Color(0.933896, 1.99261e-05, 0.642787, 0.42)
+
+[connection signal="body_entered" from="PathFollow2D/Platform/Area2D" to="PathFollow2D/Platform" method="_on_area_2d_body_entered"]

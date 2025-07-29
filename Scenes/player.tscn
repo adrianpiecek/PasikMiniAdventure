@@ -1,12 +1,14 @@
-[gd_scene load_steps=46 format=3 uid="uid://chaxaetyfi5nj"]
+[gd_scene load_steps=58 format=3 uid="uid://chaxaetyfi5nj"]
 
 [ext_resource type="Texture2D" uid="uid://bhijgmghd7jhl" path="res://Assets/Sprites/Main Characters/Virtual Guy/Idle (32x32).png" id="1_p7s1y"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_pvvpu"]
 [ext_resource type="Texture2D" uid="uid://c07qpbnlro1bp" path="res://Assets/Sprites/Main Characters/Virtual Guy/Run (32x32).png" id="2_ja5tk"]
 [ext_resource type="Texture2D" uid="uid://dbt1gn1hxsl5w" path="res://Assets/Sprites/Main Characters/Virtual Guy/Double Jump (32x32).png" id="2_x8tky"]
 [ext_resource type="Texture2D" uid="uid://bedr0ml7dkyfo" path="res://Assets/Sprites/Main Characters/Virtual Guy/Fall (32x32).png" id="3_mb6mw"]
+[ext_resource type="Texture2D" uid="uid://do74b4kv7eh0e" path="res://Assets/Sprites/Main Characters/Virtual Guy/Hit (32x32).png" id="4_mkcd1"]
 [ext_resource type="Texture2D" uid="uid://b688qw32my7l" path="res://Assets/Sprites/Main Characters/Virtual Guy/Jump (32x32).png" id="4_pqb00"]
 [ext_resource type="Texture2D" uid="uid://drodp73j82qqa" path="res://Assets/Sprites/Main Characters/Virtual Guy/Wall Jump (32x32).png" id="6_7omer"]
+[ext_resource type="Texture2D" uid="uid://cq5oi8exj6bjm" path="res://Assets/Sprites/Other/Dust Particle.png" id="9_sadho"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aio14"]
 atlas = ExtResource("2_x8tky")
@@ -35,6 +37,34 @@ region = Rect2(160, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ymiu5"]
 atlas = ExtResource("3_mb6mw")
 region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pe2wd"]
+atlas = ExtResource("4_mkcd1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kso3h"]
+atlas = ExtResource("4_mkcd1")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lphl5"]
+atlas = ExtResource("4_mkcd1")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8j537"]
+atlas = ExtResource("4_mkcd1")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukwl0"]
+atlas = ExtResource("4_mkcd1")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtd2n"]
+atlas = ExtResource("4_mkcd1")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81omx"]
+atlas = ExtResource("4_mkcd1")
+region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v4k8q"]
 atlas = ExtResource("1_p7s1y")
@@ -187,6 +217,32 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_pe2wd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kso3h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lphl5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8j537")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukwl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qtd2n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81omx")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_v4k8q")
 }, {
 "duration": 1.0,
@@ -294,18 +350,52 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpibx"]
-size = Vector2(19, 20)
+size = Vector2(15, 21)
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="Curve" id="Curve_qqfwp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wkah3"]
+curve = SubResource("Curve_qqfwp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ad8qt"]
+particle_flag_disable_z = true
+spread = 100.075
+initial_velocity_min = 120.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 600, 0)
+scale_min = 0.5
+scale_max = 0.6
+scale_curve = SubResource("CurveTexture_wkah3")
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_pvvpu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(5, 2)
+position = Vector2(6, 2)
 sprite_frames = SubResource("SpriteFrames_2fm3j")
-animation = &"fall"
+animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.967366
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(5.5, 8)
+position = Vector2(6.5, 7.5)
 shape = SubResource("RectangleShape2D_vpibx")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(0, -10)
+zoom = Vector2(2, 2)
+
+[node name="StepParticles" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(6, 18)
+emitting = false
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_ad8qt")
+texture = ExtResource("9_sadho")
+lifetime = 0.5
+one_shot = true
+randomness = 0.1
+visibility_rect = Rect2(-21.5981, -33.5981, 91.1962, 60.0981)

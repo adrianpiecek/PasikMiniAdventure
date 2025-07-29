@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1c1v0m2t3oh5"]
+
+[ext_resource type="Texture2D" uid="uid://3r7qx43lbgs" path="res://Assets/Sprites/Other/Transition.png" id="1_lg3by"]
+[ext_resource type="Script" path="res://Scripts/diamond_transition.gd" id="2_u1x7d"]
+
+[node name="TransitionDiamond" type="TextureRect"]
+z_index = 1000
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -22.0
+offset_right = 22.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_lg3by")
+script = ExtResource("2_u1x7d")

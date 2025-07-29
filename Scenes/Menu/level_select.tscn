@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://r548ohk5ua10"]
+
+[ext_resource type="Script" path="res://Scripts/level_select.gd" id="1_e76tq"]
+[ext_resource type="Script" path="res://Scripts/ui.gd" id="2_3t1qi"]
+[ext_resource type="PackedScene" uid="uid://c1c1v0m2t3oh5" path="res://Scenes/transition_diamond.tscn" id="3_qlg4c"]
+
+[node name="LevelSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e76tq")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -8.5
+offset_right = 21.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(5, 5)
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+columns = 4
+
+[node name="Lvl1Button" type="TextureButton" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Lvl2Button" type="TextureButton" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("2_3t1qi")
+
+[node name="TransitionDiamond" parent="UI" instance=ExtResource("3_qlg4c")]

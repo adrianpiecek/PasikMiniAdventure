@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://bqau7y0rqgtg2"]
+
+[ext_resource type="Script" path="res://Scripts/spiked_ball.gd" id="1_tydmt"]
+[ext_resource type="Texture2D" uid="uid://bp8iicd8oqygo" path="res://Assets/Sprites/Traps/Spiked Ball/Spiked Ball.png" id="2_kw8yn"]
+[ext_resource type="Script" path="res://Scripts/chain_drawer.gd" id="3_hqp5m"]
+[ext_resource type="Script" path="res://Scripts/killzone.gd" id="3_lplu1"]
+[ext_resource type="Texture2D" uid="uid://du2t1ba30ykpk" path="res://Assets/Sprites/Traps/Spiked Ball/Chain.png" id="4_1vhrx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tb3em"]
+radius = 11.0
+
+[node name="SpikedBall" type="Node2D"]
+script = ExtResource("1_tydmt")
+radius = 50.0
+swing_angle_deg = 360.0
+swing_speed = 3.0
+
+[node name="Pivot" type="Node2D" parent="."]
+
+[node name="Ball" type="Sprite2D" parent="Pivot"]
+z_index = 1
+texture = ExtResource("2_kw8yn")
+
+[node name="Killzone" type="Area2D" parent="Pivot/Ball"]
+collision_layer = 4
+script = ExtResource("3_lplu1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Ball/Killzone"]
+shape = SubResource("CircleShape2D_tb3em")
+debug_color = Color(0.976471, 0, 0.411765, 0.223529)
+
+[node name="ChainDrawer" type="Node2D" parent="."]
+z_index = -1
+script = ExtResource("3_hqp5m")
+link_texture = ExtResource("4_1vhrx")
