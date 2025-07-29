@@ -1,6 +1,6 @@
 [gd_scene load_steps=36 format=3 uid="uid://be3ncvo7cuo54"]
 
-[ext_resource type="Script" path="res://Scripts/spiked_thowmp.gd" id="1_5v7iv"]
+[ext_resource type="Script" uid="uid://bye2jvnmkbxnc" path="res://Scripts/spiked_thowmp.gd" id="1_5v7iv"]
 [ext_resource type="Texture2D" uid="uid://c3edv4vbb28sl" path="res://Assets/Sprites/Traps/Spike Head/Idle.png" id="2_yh1bt"]
 [ext_resource type="Texture2D" uid="uid://d0tqcovs7fp7k" path="res://Assets/Sprites/Traps/Spike Head/Blink (54x52).png" id="2_yjamt"]
 [ext_resource type="Texture2D" uid="uid://v4qlssnfep3g" path="res://Assets/Sprites/Traps/Spike Head/Bottom Hit (54x52).png" id="4_oop04"]

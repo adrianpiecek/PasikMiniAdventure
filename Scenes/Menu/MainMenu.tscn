@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d0b3440wcnsd1"]
 
-[ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_8y4xj"]
-[ext_resource type="Script" path="res://Scripts/ui.gd" id="2_f7yhl"]
+[ext_resource type="Script" uid="uid://bjk4urn8m03vx" path="res://Scripts/MainMenu.gd" id="1_8y4xj"]
+[ext_resource type="Script" uid="uid://djsvt04xt1b45" path="res://Scripts/ui.gd" id="2_f7yhl"]
 [ext_resource type="PackedScene" uid="uid://c1c1v0m2t3oh5" path="res://Scenes/transition_diamond.tscn" id="2_x4cfq"]
 
 [node name="Control" type="Control"]

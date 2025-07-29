@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://bmlaclaog8kjj"]
 
-[ext_resource type="Script" path="res://Scripts/thwomp.gd" id="1_enlip"]
+[ext_resource type="Script" uid="uid://dv44rti8b5443" path="res://Scripts/thwomp.gd" id="1_enlip"]
 [ext_resource type="Texture2D" uid="uid://bapcimfgk8p1d" path="res://Assets/Sprites/Traps/Rock Head/Idle.png" id="1_esivh"]
 [ext_resource type="Texture2D" uid="uid://cv12du022a21j" path="res://Assets/Sprites/Traps/Rock Head/Bottom Hit (42x42).png" id="2_kc6va"]
 [ext_resource type="Texture2D" uid="uid://nivj5fxmgvue" path="res://Assets/Sprites/Traps/Rock Head/Left Hit (42x42).png" id="3_s24iq"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://cgoym2u0apgs8"]
 
-[ext_resource type="Script" path="res://Scripts/flying_platform.gd" id="1_tkm8f"]
-[ext_resource type="Script" path="res://Scripts/platform.gd" id="2_xgkc6"]
+[ext_resource type="Script" uid="uid://3ojqqy2vwbpf" path="res://Scripts/flying_platform.gd" id="1_tkm8f"]
+[ext_resource type="Script" uid="uid://dkyfjjc3tq346" path="res://Scripts/platform.gd" id="2_xgkc6"]
 [ext_resource type="Texture2D" uid="uid://dytigfy1lyfa3" path="res://Assets/Sprites/Traps/Falling Platforms/On (32x10).png" id="3_r5tq3"]
 [ext_resource type="Texture2D" uid="uid://b8vwhbwocw427" path="res://Assets/Sprites/Traps/Falling Platforms/On not fallinf (32x10).png" id="4_vbqrl"]
 [ext_resource type="Texture2D" uid="uid://bw8aapqhx1n74" path="res://Assets/Sprites/Traps/Falling Platforms/Off.png" id="5_ays2p"]

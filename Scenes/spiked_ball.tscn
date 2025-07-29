@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bqau7y0rqgtg2"]
 
-[ext_resource type="Script" path="res://Scripts/spiked_ball.gd" id="1_tydmt"]
+[ext_resource type="Script" uid="uid://ctjmds0tirk0x" path="res://Scripts/spiked_ball.gd" id="1_tydmt"]
 [ext_resource type="Texture2D" uid="uid://bp8iicd8oqygo" path="res://Assets/Sprites/Traps/Spiked Ball/Spiked Ball.png" id="2_kw8yn"]
-[ext_resource type="Script" path="res://Scripts/chain_drawer.gd" id="3_hqp5m"]
-[ext_resource type="Script" path="res://Scripts/killzone.gd" id="3_lplu1"]
+[ext_resource type="Script" uid="uid://d0jojd3l72b" path="res://Scripts/chain_drawer.gd" id="3_hqp5m"]
+[ext_resource type="Script" uid="uid://cnxe6bofjvhv1" path="res://Scripts/killzone.gd" id="3_lplu1"]
 [ext_resource type="Texture2D" uid="uid://du2t1ba30ykpk" path="res://Assets/Sprites/Traps/Spiked Ball/Chain.png" id="4_1vhrx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tb3em"]

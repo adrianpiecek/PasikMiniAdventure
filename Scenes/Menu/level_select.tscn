@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://r548ohk5ua10"]
 
-[ext_resource type="Script" path="res://Scripts/level_select.gd" id="1_e76tq"]
-[ext_resource type="Script" path="res://Scripts/ui.gd" id="2_3t1qi"]
+[ext_resource type="Script" uid="uid://dr8ub0y0uvnlq" path="res://Scripts/level_select.gd" id="1_e76tq"]
+[ext_resource type="Script" uid="uid://djsvt04xt1b45" path="res://Scripts/ui.gd" id="2_3t1qi"]
 [ext_resource type="PackedScene" uid="uid://c1c1v0m2t3oh5" path="res://Scenes/transition_diamond.tscn" id="3_qlg4c"]
 
 [node name="LevelSelect" type="Control"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=58 format=3 uid="uid://chaxaetyfi5nj"]
 
 [ext_resource type="Texture2D" uid="uid://bhijgmghd7jhl" path="res://Assets/Sprites/Main Characters/Virtual Guy/Idle (32x32).png" id="1_p7s1y"]
-[ext_resource type="Script" path="res://Scripts/player.gd" id="1_pvvpu"]
+[ext_resource type="Script" uid="uid://clr2kmcf1kbk5" path="res://Scripts/player.gd" id="1_pvvpu"]
 [ext_resource type="Texture2D" uid="uid://c07qpbnlro1bp" path="res://Assets/Sprites/Main Characters/Virtual Guy/Run (32x32).png" id="2_ja5tk"]
 [ext_resource type="Texture2D" uid="uid://dbt1gn1hxsl5w" path="res://Assets/Sprites/Main Characters/Virtual Guy/Double Jump (32x32).png" id="2_x8tky"]
 [ext_resource type="Texture2D" uid="uid://bedr0ml7dkyfo" path="res://Assets/Sprites/Main Characters/Virtual Guy/Fall (32x32).png" id="3_mb6mw"]
