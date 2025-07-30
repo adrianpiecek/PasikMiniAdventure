@@ -13,7 +13,6 @@ const MIN_JUMP_TIME = 0.1
 const MAX_JUMP_TIME = 0.25
 const JUMP_CUT_MULTIPLIER = 0.25
 
-
 var coyote_timer = 0.0
 var can_double_jump = false
 var is_wall_jumping = false
