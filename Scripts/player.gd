@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 200
-const JUMP_VELOCITY = -360
+const JUMP_VELOCITY = -380
 const GRAVITY = 900
 const COYOTE_TIME = 0.1
 const WALL_JUMP_FORCE = Vector2(200, -360)
@@ -9,12 +9,18 @@ const WALL_JUMP_LOCK_TIME = 0.2
 const IGNORE_PLATFORM_TIME = 0.2
 const WALL_SLIDE_SPEED = 50
 const DASH_COOLDOWN = 0.5
+const MIN_JUMP_TIME = 0.1  
+const MAX_JUMP_TIME = 0.25
+const JUMP_CUT_MULTIPLIER = 0.25
+
 
 var coyote_timer = 0.0
 var can_double_jump = false
 var is_wall_jumping = false
 var wall_jump_lock_timer = 0.0
 var wall_jump_direction = 0
+var is_jumping = false
+var jump_timer = 0.0
 var ignore_platform_timer = 0.0
 var is_dead = false
 var friction = 1.0
@@ -26,7 +32,8 @@ var dash_cooldown_timer = 0.0
 var DASH_TIME = 0.15
 var DASH_SPEED = 450
 var can_dash = true
-
+var facing_direction := 1  # 1 = prawo, -1 = lewo
+var last_flipped_direction := 1  # dla kontroli flipowania tekstury
 
 @onready var sprite = $AnimatedSprite2D
 @onready var step_particles = $Particles/StepParticles
@@ -36,8 +43,6 @@ var can_dash = true
 @onready var dash_sound = $Sounds/DashSound
 @onready var jump_sound = $Sounds/JumpSound
 @onready var hurt_sound = $Sounds/HurtSound
-
-
 
 @export var tilemap: TileMap
 
@@ -52,6 +57,11 @@ func _ready() -> void:
 
 func _physics_process(delta):
 	var velocity = self.velocity
+	
+	if velocity.x > 0:
+		facing_direction = 1
+	elif velocity.x < 0:
+		facing_direction = -1
 	
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
@@ -90,6 +100,7 @@ func _physics_process(delta):
 		coyote_timer = COYOTE_TIME
 		can_double_jump = true
 		can_dash = true
+		is_jumping = false
 	else:
 		coyote_timer -= delta
 
@@ -126,6 +137,8 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("ui_up"):
 		if on_floor or coyote_timer > 0:
 			velocity.y = JUMP_VELOCITY
+			is_jumping = true
+			jump_timer = 0.0
 			sprite.play("jump")
 			jump_sound.play()
 		elif on_wall and not on_floor:
@@ -140,17 +153,32 @@ func _physics_process(delta):
 		elif can_double_jump:
 			velocity.y = JUMP_VELOCITY
 			can_double_jump = false
+			is_jumping = true
+			jump_timer = 0.0
 			double_jump_particles.emitting = true
 			sprite.play("double_jump")
 			jump_sound.play()
 
+	if is_jumping:
+		jump_timer += delta
+		if not Input.is_action_pressed("ui_up") and jump_timer > MIN_JUMP_TIME and velocity.y < 0:
+			velocity.y *= JUMP_CUT_MULTIPLIER
+			is_jumping = false
+		elif jump_timer > MAX_JUMP_TIME:
+			is_jumping = false
+
+
 	# === Flip kierunku patrzenia ===
 	if velocity.x != 0:
 		sprite.flip_h = velocity.x < 0
+
+	if facing_direction != last_flipped_direction:
+		last_flipped_direction = facing_direction
 		var img = dash_particles.texture.get_image()
 		img.flip_x()
-		dash_particles.texture = ImageTexture.create_from_image(img)
-
+		var flipped_texture = ImageTexture.create_from_image(img)
+		dash_particles.texture = flipped_texture
+	
 	# === Animacje ===
 	if is_wall_jumping:
 		sprite.play("wall_jump")
