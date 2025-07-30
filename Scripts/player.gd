@@ -48,6 +48,7 @@ var last_flipped_direction := 1  # dla kontroli flipowania tekstury
 var surface_properties = {
 	"ice": {"friction": 0.15, "speed_multiplier": 1.25},
 	"mud": {"friction": 5.0, "speed_multiplier": 0.35},
+	"default": {"friction": 1.0, "speed_multiplier": 1.0}
 }
 var current_surface = {"friction": 1.0, "speed_multiplier": 1.0}
 
@@ -123,7 +124,7 @@ func _physics_process(delta):
 	
 	if on_wall and velocity.y > WALL_SLIDE_SPEED and hor_arrow_pressed:
 		#sprite.play("wall_slide")
-		velocity.y = WALL_SLIDE_SPEED
+		velocity.y = WALL_SLIDE_SPEED / friction
 		wall_slide_particles.emitting = true
 		if Input.is_action_pressed("ui_right"):
 			wall_slide_particles.position = Vector2(14,7)
@@ -142,6 +143,7 @@ func _physics_process(delta):
 			jump_sound.play()
 		elif on_wall and not on_floor:
 			var normal = get_wall_normal()
+			print(normal)
 			is_wall_jumping = true
 			wall_jump_lock_timer = WALL_JUMP_LOCK_TIME
 			wall_jump_direction = int(normal.x)
@@ -225,15 +227,22 @@ func _physics_process(delta):
 		#print("Collided with: ", collision.get_collider().name)
 		var collider = collision.get_collider()
 		if collider is TileMapLayer:
-			var tile_pos = collider.local_to_map(collision.get_position() - collision.get_normal())
+			#var tile_pos = collider.local_to_map(collision.get_position() - collision.get_normal())
+			var contact_pos = collision.get_position()
+			var adjusted_pos = contact_pos - collision.get_normal() * 0.5
+			var tile_pos = collider.local_to_map(collider.to_local(adjusted_pos))
+			print("normal: ", collision.get_normal())
+			print("tile_pos: ", tile_pos)
 			var tile_data = collider.get_cell_tile_data(tile_pos)
 			if tile_data:
+				#print(tile_data.get_custom_data("surface_type"))
 				if tile_data.get_custom_data("is_deadly"):
 					die()
 					velocity = Vector2(0, -400)  # Odbicie w górę
 					self.velocity = velocity
 					break
 				current_surface = get_surface_properties(tile_data)
+				
 		elif collider.is_in_group("flying_platform"):
 			current_surface = {"friction": 1.0, "speed_multiplier": 1.0}
 	
