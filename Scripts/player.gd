@@ -1,14 +1,14 @@
 extends CharacterBody2D
 
-const SPEED = 200
-const JUMP_VELOCITY = -380
+const SPEED = 170
+const JUMP_VELOCITY = -330
 const GRAVITY = 900
 const COYOTE_TIME = 0.1
 const WALL_JUMP_FORCE = Vector2(200, -360)
 const WALL_JUMP_LOCK_TIME = 0.2
 const IGNORE_PLATFORM_TIME = 0.2
 const WALL_SLIDE_SPEED = 50
-const DASH_COOLDOWN = 0.5
+const DASH_COOLDOWN = 1.5
 const MIN_JUMP_TIME = 0.1  
 const MAX_JUMP_TIME = 0.25
 const JUMP_CUT_MULTIPLIER = 0.25
@@ -231,8 +231,6 @@ func _physics_process(delta):
 			var contact_pos = collision.get_position()
 			var adjusted_pos = contact_pos - collision.get_normal() * 0.5
 			var tile_pos = collider.local_to_map(collider.to_local(adjusted_pos))
-			print("normal: ", collision.get_normal())
-			print("tile_pos: ", tile_pos)
 			var tile_data = collider.get_cell_tile_data(tile_pos)
 			if tile_data:
 				#print(tile_data.get_custom_data("surface_type"))
